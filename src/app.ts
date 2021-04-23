@@ -4,8 +4,7 @@ import UserModules from "./modules/usermodule/init";
 class App {
     public app: Express = express();
     constructor() {
-        this.configuration();
-        this.connectDatabase();
+        this.configuration(); this.connectDatabase();
         this.initApp();
     }
     public connectDatabase() {
