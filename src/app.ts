@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import * as bodyParser from "body-parser";
-import UserModules from "./usermodule/init";
+import UserModules from "./modules/usermodule/init";
 class App {
     public app: Express = express();
     constructor() {
