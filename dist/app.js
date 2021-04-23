@@ -24,10 +24,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
+const init_1 = __importDefault(require("./usermodule/init"));
 class App {
     constructor() {
         this.app = express_1.default();
         this.configuration();
+        this.connectDatabase();
+        this.initApp();
+    }
+    connectDatabase() {
+        console.log("database ok");
     }
     configuration() {
         this.app.use(bodyParser.json());
@@ -35,6 +41,7 @@ class App {
     }
     initApp() {
         console.log("LOAD MODULES");
+        const userModule = new init_1.default("/api", this.app);
     }
 }
 exports.default = new App();
