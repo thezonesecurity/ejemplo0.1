@@ -8,4 +8,5 @@ const port = 8000;
 app_1.default.app.listen(port, () => {
     console.log("Server running in port " + port);
 });
+exports.default = app_1.default;
 //# sourceMappingURL=server.js.map

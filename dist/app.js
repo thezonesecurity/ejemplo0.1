@@ -25,6 +25,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const bodyParser = __importStar(require("body-parser"));
 const init_1 = __importDefault(require("./modules/usermodule/init"));
+const mongoose_1 = __importDefault(require("mongoose"));
 class App {
     constructor() {
         this.app = express_1.default();
@@ -33,7 +34,19 @@ class App {
         this.initApp();
     }
     connectDatabase() {
-        console.log("database ok");
+        let host = process.env.DBHOST || "mongodb://172.21.0.2:27017";
+        let database = process.env.DATABASE || "seminario";
+        let connectionString = `${host}/${database}`;
+        mongoose_1.default.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
+        //Eventos
+        mongoose_1.default.connection.on("error", err => {
+            console.log("Connection Fail");
+            console.log(err);
+        });
+        mongoose_1.default.connection.on("open", () => {
+            console.log("database connection success!");
+        });
+        this.mongooseClient = mongoose_1.default;
     }
     configuration() {
         this.app.use(bodyParser.json());
