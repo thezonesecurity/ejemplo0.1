@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import BusinessUser from "../businessController/businessUser";
+import BusinessUser from "../businessController/BusinessUser";
 import BussinessRoles from "../businessController/BussinessRoles";
 import sha1 from "sha1";
 import { IUser } from "../models/Users";
