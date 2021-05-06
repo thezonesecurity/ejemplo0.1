@@ -34,7 +34,7 @@ class App {
         this.initApp();
     }
     connectDatabase() {
-        let host = process.env.DBHOST || "mongodb://172.21.0.2:27017";
+        let host = "mongodb://172.19.0.2:27017";
         let database = process.env.DATABASE || "seminario";
         let connectionString = `${host}/${database}`;
         mongoose_1.default.connect(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -53,7 +53,7 @@ class App {
         this.app.use(bodyParser.urlencoded({ extended: false }));
     }
     initApp() {
-        console.log("LOAD MODULES");
+        console.log("LOAD MODULES 22222222");
         const userModule = new init_1.default("/api", this.app);
     }
 }

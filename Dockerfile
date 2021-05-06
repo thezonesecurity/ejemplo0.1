@@ -7,5 +7,5 @@ RUN npm install nodemon -g --quiet
 RUN npm install typescript -g
 COPY . .
 EXPOSE 8000
-RUN npm run build
+RUN npm run dev
 CMD ["nodemon", "dist/server.js"]
