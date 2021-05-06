@@ -1,4 +1,5 @@
 import UsersModel, { IUser } from "../models/Users";
+import RolesModel, { IRoles } from "../models/Roles";
 class BusinessUser {
     constructor() {
 
@@ -6,9 +7,14 @@ class BusinessUser {
     //addUsers
     //CRUD
     public async addUsers(user: IUser) {
-        let userDb = new UsersModel(user);
-        let result = await userDb.save();
-        return result;
+        try {
+            let userDb = new UsersModel(user);
+            let result = await userDb.save();
+            return result;
+        } catch (err) {
+            return err;
+        }
+
     }
     public async readUsers() {
         let listUser: Array<IUser> = await UsersModel.find();
@@ -22,6 +28,43 @@ class BusinessUser {
         let result = await UsersModel.remove({ _id: id });
         return result;
     }
+    public async addRol(idUs: string, idRol: string) {
+        let user = await UsersModel.findOne({ _id: idUs });
+        if (user != null) {
+            var rol = await RolesModel.findOne({ _id: idRol });
+            if (rol != null) {
+                user.roles.push(rol);
+                return await user.save();
+            }
+            return null;
+        }
+        return null;
+    }
+    public async removeRol(idUs: string, idRol: string) {
+        let user = await UsersModel.findOne({ _id: idUs });
+        var rol = await RolesModel.findOne({ _id: idRol });
+        if (user != null && rol != null) {
+            let newroles: Array<IRoles> = user.roles.filter((item: IRoles) => {
+                if (item.name == rol.name) {
+                    return false;
+                }
+                return true;
+            });
+            if (newroles.length == 0) {
+                await UsersModel.update({ _id: idUs }, { $set: { roles: [] } });
+                let user = await UsersModel.findOne({ _id: idUs });
+                return user;
+            } else {
+                user.roles = newroles;
+            }
+            try {
+                return await user.save();
+            } catch (err) {
+                return err;
+            };
 
+        }
+        return null
+    }
 }
 export default BusinessUser;

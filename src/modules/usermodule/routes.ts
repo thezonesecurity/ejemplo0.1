@@ -9,14 +9,19 @@ class Routes {
         this.configureRoutes(app);
     }
     private configureRoutes(app: Express) {
-        //creara un usuario nuevo
+        //**--USER ROUTES--------------------------------------------------------------------------------------- */
+
         app.route(`${this.routeparent}/users`).post(this.routesController.createUsers);
-        //leera la informacion de un conjunto de usuarios
         app.route(`${this.routeparent}/users`).get(this.routesController.getUsers);
         app.route(`${this.routeparent}/users/:id`).put(this.routesController.updateUsers);
         app.route(`${this.routeparent}/users/:id`).delete(this.routesController.removeUsers);
+        app.route(`${this.routeparent}/addrol/:id`).put(this.routesController.addRol);
+        app.route(`${this.routeparent}/removerol/:id`).put(this.routesController.removeUserRol);
 
-        //app.route(`${this.routeparent}/isprime`).post(this.routesController.isPrime);
+        //**--ROLES ROUTES--------------------------------------------------------------------------------------- */
+        app.route(`${this.routeparent}/roles`).post(this.routesController.createRol);
+        app.route(`${this.routeparent}/roles/:id`).delete(this.routesController.removeRol);
+
     }
 }
 export default Routes;
