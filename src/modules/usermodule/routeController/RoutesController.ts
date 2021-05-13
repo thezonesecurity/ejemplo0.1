@@ -140,11 +140,45 @@ class RoutesController {
     var dir = `${__dirname}/../../../../avatarfiles`;
     var absolutepath = path.resolve(dir);
     var files: any = request.files;
-    var file: any = files.portrait;
-    var filehash: string = sha1(new Date().toString()).substr(0, 7);
-    var newname: string = `${filehash}_${file.name}`;
-    var totalpath = `${absolutepath}/${newname}`;
-    file.mv(totalpath, async (err: any, success: any) => {
+    /*var file: any = files.portrait;
+    if (!file) {
+      response.status(300).json({
+        serverResponse:
+          "error el archivo debe ser subido con el parametro portrait!",
+      });
+      return;
+    }*/
+    var key: Array<string> = Object.keys(files);
+    /**/
+    var copyDirectory = (totalpath: string, file: any) => {
+      return new Promise((resolve, reject) => {
+        file.mv(totalpath, (err: any, success: any) => {
+          if (err) {
+            resolve(false);
+            return;
+          }
+          resolve(true);
+          return;
+        });
+      });
+    };
+    for (var i = 0; i < key.length; i++) {
+      var file: any = files[key[i]];
+      var filehash: string = sha1(new Date().toString()).substr(0, 7);
+      var newname: string = `${filehash}_${file.name}`;
+      var totalpath = `${absolutepath}/${newname}`;
+      await copyDirectory(totalpath, file);
+      userToUpdate.uriavatar = "/api/getportrait/" + id;
+      userToUpdate.pathavatar = totalpath;
+      var userResult: IUser = await userToUpdate.save();
+    }
+    var simpleUser: ISimpleUser = {
+      username: userResult.username,
+      uriavatar: userResult.uriavatar,
+      pathavatar: userResult.pathavatar,
+    };
+    response.status(300).json({ serverResponse: simpleUser });
+    /*file.mv(totalpath, async (err: any, success: any) => {
       if (err) {
         response
           .status(300)
@@ -161,8 +195,9 @@ class RoutesController {
         pathavatar: userResult.pathavatar,
       };
       response.status(300).json({ serverResponse: simpleUser });
-    });
+    });*/
   }
+
   public async getPortrait(request: Request, response: Response) {
     var id: string = request.params.id;
     if (!id) {
