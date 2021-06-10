@@ -14,10 +14,10 @@ class Routes {
     app.route(`${this.routeparent}/login`).post(this.routesController.login);
     app
       .route(`${this.routeparent}/users`)
-      .post(jsonwebtokenSecurity, this.routesController.createUsers);
+      .post(this.routesController.createUsers);
     app
       .route(`${this.routeparent}/users`)
-      .get(jsonwebtokenSecurity, this.routesController.getUsers);
+      .get(this.routesController.getUsers);
     app
       .route(`${this.routeparent}/users/:id`)
       .put(this.routesController.updateUsers);

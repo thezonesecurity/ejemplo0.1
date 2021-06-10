@@ -11,7 +11,7 @@ interface Icredentials {
   password: string;
 }
 class RoutesController {
-  constructor() {}
+  constructor() { }
   public async login(request: Request, response: Response) {
     var credentials: Icredentials = request.body;
     if (credentials.email == undefined) {
@@ -48,7 +48,12 @@ class RoutesController {
   }
   public async createUsers(request: Request, response: Response) {
     var user: BusinessUser = new BusinessUser();
+
     var userData = request.body;
+    if (userData["password"] == null) {
+      response.status(200).json({ serverResponse: { error: "Paramétros Incorrectos" } })
+      return;
+    }
     userData["registerdate"] = new Date();
     userData["password"] = sha1(userData["password"]);
     let result = await user.addUsers(userData);
