@@ -45,6 +45,9 @@ class Routes {
     app
       .route(`${this.routeparent}/roles/:id`)
       .delete(this.routesController.removeRol);
+    app
+      .route(`${this.routeparent}/roles/`)
+      .get(this.routesController.getRoles);
   }
 }
 export default Routes;

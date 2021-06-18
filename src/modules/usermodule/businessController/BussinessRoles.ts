@@ -16,5 +16,9 @@ class BussinessRoles {
         ////----------////
         return result;
     }
+    public async getListRol() {
+        let result = await RolesModel.find();
+        return result;
+    }
 }
 export default BussinessRoles;

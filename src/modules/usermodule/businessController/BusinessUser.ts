@@ -11,20 +11,20 @@ class BusinessUser {
     public async readUsers(): Promise<Array<IUser>>;
     public async readUsers(id: string): Promise<IUser>;
     public async readUsers(query: any, skip: number, limit: number): Promise<Array<IUser>>;
-    
-    public async readUsers(params1?: string | any, params2?: number, params3?: number) : Promise<Array<IUser>|IUser>{
+
+    public async readUsers(params1?: string | any, params2?: number, params3?: number): Promise<Array<IUser> | IUser> {
         if (params1 && typeof params1 == "string") {
-            var result : IUser = await UsersModel.findOne({_id: params1});
+            var result: IUser = await UsersModel.findOne({ _id: params1 });
             return result;
-        } else if(params1) {
-            let skip =  params2? params2: 0;
-            let limit =  params3? params3: 1;
+        } else if (params1) {
+            let skip = params2 ? params2 : 0;
+            let limit = params3 ? params3 : 1;
             let listUser: Array<IUser> = await UsersModel.find(params1).skip(skip).limit(limit);
             return listUser;
         } else {
             let listUser: Array<IUser> = await UsersModel.find();
             return listUser;
-        
+
         }
     }
     //addUsers
@@ -39,7 +39,7 @@ class BusinessUser {
             return err;
         }
     }
-    
+
     public async updateUsers(id: string, user: any) {
         let result = await UsersModel.update({ _id: id }, { $set: user });
         return result;

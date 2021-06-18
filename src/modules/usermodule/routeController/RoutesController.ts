@@ -114,6 +114,11 @@ class RoutesController {
     let result = await roles.deleteRol(idRol);
     response.status(201).json({ serverResponse: result });
   }
+  public async getRoles(request: Request, response: Response) {
+    let roles: BussinessRoles = new BussinessRoles();
+    let result = await roles.getListRol();
+    response.status(200).json({ serverResponse: result });
+  }
   public async removeUserRol(request: Request, response: Response) {
     let roles: BusinessUser = new BusinessUser();
     let idUs: string = request.params.id;
