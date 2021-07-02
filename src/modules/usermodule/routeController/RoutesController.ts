@@ -68,6 +68,9 @@ class RoutesController {
     var user: BusinessUser = new BusinessUser();
     let id: string = request.params.id;
     var params = request.body;
+    if (params["password"] != null) {
+      params["password"] = sha1(params["password"]);
+    }
     var result = await user.updateUsers(id, params);
     response.status(200).json({ serverResponse: result });
   }
@@ -91,7 +94,7 @@ class RoutesController {
     if (result == null) {
       response
         .status(300)
-        .json({ serverResponse: "El rol o usuario no existen" });
+        .json({ serverResponse: "El rol o usuario no existen, o esta asignando dolble rol" });
       return;
     }
     response.status(200).json({ serverResponse: result });

@@ -41,6 +41,7 @@ class BusinessUser {
     }
 
     public async updateUsers(id: string, user: any) {
+
         let result = await UsersModel.update({ _id: id }, { $set: user });
         return result;
     }
@@ -53,8 +54,18 @@ class BusinessUser {
         if (user != null) {
             var rol = await RolesModel.findOne({ _id: idRol });
             if (rol != null) {
-                user.roles.push(rol);
-                return await user.save();
+                var checkrol: Array<IRoles> = user.roles.filter((item) => {
+                    if (rol._id.toString() == item._id.toString()) {
+                        return true;
+                    }
+                    return false;
+                });
+                console.log(checkrol)
+                if (checkrol.length == 0) {
+                    user.roles.push(rol);
+                    return await user.save();
+                }
+                return null;
             }
             return null;
         }
