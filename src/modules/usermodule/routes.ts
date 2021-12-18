@@ -1,6 +1,6 @@
 import RoutesController from "./routeController/RoutesController";
 import jsonwebtokenSecurity from "./middleware";
-import { Express } from "express";
+import { Express, request, response } from "express";
 class Routes {
   private routesController: RoutesController;
   private routeparent: string;
@@ -10,6 +10,11 @@ class Routes {
     this.configureRoutes(app);
   }
   private configureRoutes(app: Express) {
+    /*se aumento para networt error
+    app.use((require, request, next) => {
+      response.setHeader("Access-Control-Allow-Origin", "*");
+      next();
+    });*/
     //**--USER ROUTES--------------------------------------------------------------------------------------- */
     app.route(`${this.routeparent}/login`).post(this.routesController.login);
     app

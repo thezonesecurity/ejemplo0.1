@@ -48,7 +48,7 @@ class RoutesController {
   }
   public async createUsers(request: Request, response: Response) {
     var user: BusinessUser = new BusinessUser();
-
+    console.log(userData);
     var userData = request.body;
     if (userData["password"] == null) {
       response.status(200).json({ serverResponse: { error: "Paramétros Incorrectos" } })
